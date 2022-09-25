@@ -102,11 +102,18 @@ def fd_cli_cmd_nft_recover(
                          pre=pre)
         return
 
+    if '_v1_' in FD_CLI_ENV_BC_DB_PATH:
+        spent_column_name = 'spent'
+    elif '_v2_' in FD_CLI_ENV_BC_DB_PATH:
+        spent_column_name = 'spent_index'
+    else:
+        fd_cli_print_raw("Unknown database version (not v1 or v2) found at: {0}".format(FD_CLI_ENV_BC_DB_PATH))
+        return
     db_bc_cursor: sqlite3.Cursor = ctx.obj['bc_db'].cursor()
     db_bc_cursor.execute(
         f"SELECT * "
         f"FROM coin_record "
-        f"WHERE spent_index == 0 "
+        f"WHERE {spent_column_name} == 0 "
         f"AND timestamp <= (strftime('%s', 'now') - {delay}) "
         f"AND puzzle_hash LIKE '{contract_hash_hex}' "
         f"ORDER BY timestamp DESC")
