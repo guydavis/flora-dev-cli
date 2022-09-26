@@ -1,4 +1,5 @@
 import click
+import os
 import requests
 import sqlite3
 import urllib3
@@ -102,12 +103,12 @@ def fd_cli_cmd_nft_recover(
                          pre=pre)
         return
 
-    if '_v1_' in FD_CLI_ENV_BC_DB_PATH:
+    if '_v1_' in os.environ[FD_CLI_ENV_BC_DB_PATH]:
         spent_column_name = 'spent'
-    elif '_v2_' in FD_CLI_ENV_BC_DB_PATH:
+    elif '_v2_' in os.environ[FD_CLI_ENV_BC_DB_PATH]:
         spent_column_name = 'spent_index'
     else:
-        fd_cli_print_raw("Unknown database version (not v1 or v2) found at: {0}".format(FD_CLI_ENV_BC_DB_PATH))
+        fd_cli_print_raw("Unknown database version (not v1 or v2) found at: {0}".format(os.environ[FD_CLI_ENV_BC_DB_PATH]))
         return
     db_bc_cursor: sqlite3.Cursor = ctx.obj['bc_db'].cursor()
     db_bc_cursor.execute(
