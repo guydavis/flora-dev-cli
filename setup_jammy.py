@@ -14,7 +14,7 @@ if __name__ == '__main__':
         description='',
         install_requires=[
             'click~=7.1.2',
-            'chia-blockchain~=1.5.1',
+            'chia-blockchain~=1.6.0',
             'setuptools~=65.3.0',
             'requests~=2.28.1'
         ],
