@@ -116,8 +116,10 @@ def fd_cli_cmd_nft_recover(
         f"FROM coin_record "
         f"WHERE {spent_column_name} == 0 "
         f"AND timestamp <= (strftime('%s', 'now') - {delay}) "
-        f"AND puzzle_hash LIKE '{contract_hash_hex}' "
-        f"ORDER BY timestamp DESC")
+        f"AND puzzle_hash LIKE ? "
+        f"ORDER BY timestamp DESC",
+        (bytes.fromhex(contract_hash_hex),)
+    )
 
     coin_records: list = []
 
